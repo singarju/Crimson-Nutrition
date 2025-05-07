@@ -12,6 +12,12 @@ This project serves as a foundation for future expansions, ensuring a practical 
 ## Installation & Setup
 (Details to be added once the project reaches the development stage.)
 
+Web Application runs of Python's Flask. Uploads are stored in the static folder.
+
+
+1. pip install requirements
+2. python3 app.py
+
 ## Contact
 For any inquiries or contributions, feel free to reach out to us via email.
 
