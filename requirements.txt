@@ -1,0 +1,9 @@
+torch
+torchvision
+h5py
+flask
+groq
+python-dotenv
+matplotlib
+ipykernel
+tensorflow
