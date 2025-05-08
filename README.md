@@ -9,6 +9,15 @@ This project serves as a foundation for future expansions, ensuring a practical 
 ## App screenshots
 
 
+<p align="center">
+  <img src="images/page1.png" alt="Home Page" width="500"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="images/page2.png" alt="Upload Food Image" width="500"/>
+</p>
+<p align="center">
+  <em>Left: Home page of Crimson Nutrition showing the main dashboard.<br>
+  Right: Upload page where users can submit food images for analysis.</em>
+</p>
 
 
 

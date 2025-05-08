@@ -1,6 +1,7 @@
 torch
 torchvision
 h5py
+pillow
 flask
 groq
 python-dotenv
