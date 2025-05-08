@@ -1,0 +1,371 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crimson Nutrition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --earth-brown: #8B6B4C;
+            --light-sand: #F5F1E9;
+            --forest-green: #5A7247;
+            --soft-clay: #D9BEA3;
+            --terracotta: #C57B57;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-sand);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: var(--earth-brown);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        p.subtitle {
+            color: var(--forest-green);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+        
+        .upload-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--soft-clay);
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--terracotta);
+            background-color: rgba(213, 184, 158, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--earth-brown);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .btn {
+            background-color: var(--forest-green);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #496239;
+        }
+        
+        .btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        
+        .results-container {
+            display: none;
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .results-title {
+            color: var(--earth-brown);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .result-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .image-preview {
+            max-width: 300px;
+            border-radius: 8px;
+        }
+        
+        .prediction-list {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .prediction-item {
+            background-color: var(--light-sand);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .prediction-item.top {
+            background-color: var(--soft-clay);
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(138, 107, 76, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--earth-brown);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--earth-brown);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Crimson Nutrition</h1>
+            <p class="subtitle">Upload a food image and let our AI tell you what it is</p>
+        </header>
+        
+        <div class="upload-container">
+            <div class="upload-area" id="dropArea">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Drag and drop your food image here or click to browse</div>
+                <input type="file" class="file-input" id="fileInput" accept="image/*">
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" id="uploadBtn" disabled>Identify Food</button>
+            </div>
+        </div>
+        
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <div>Analyzing your food image...</div>
+        </div>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <div class="results-container" id="resultsContainer">
+            <h2 class="results-title">Results</h2>
+            <div class="result-flex">
+                <img src="" alt="Uploaded food" class="image-preview" id="imagePreview">
+                <div class="prediction-list" id="predictionList">
+                    <!-- Predictions will be inserted here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="calorie-info" style="display:none; margin-top:1em;">
+            <h3>Calorie Estimate</h3>
+            <p>
+                Food: <strong><span id="calorie-food"></span></strong><br>
+                Estimated Calories: <strong><span id="calorie-lower"></span></strong> – 
+                <strong><span id="calorie-upper"></span></strong> kcal
+            </p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Crimson Nutrition</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const dropArea = document.getElementById('dropArea');
+            const loader = document.getElementById('loader');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const predictionList = document.getElementById('predictionList');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Handle file selection
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    uploadBtn.disabled = false;
+                } else {
+                    uploadBtn.disabled = true;
+                }
+            });
+            
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.style.borderColor = 'var(--terracotta)';
+                dropArea.style.backgroundColor = 'rgba(213, 184, 158, 0.1)';
+            }
+            
+            function unhighlight() {
+                dropArea.style.borderColor = 'var(--soft-clay)';
+                dropArea.style.backgroundColor = '';
+            }
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                
+                if (fileInput.files.length > 0) {
+                    uploadBtn.disabled = false;
+                }
+            }
+            
+            // Handle file upload
+            uploadBtn.addEventListener('click', function() {
+                if (fileInput.files.length === 0) return;
+                
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                
+                // Show loader, hide results and error
+                loader.style.display = 'block';
+                resultsContainer.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loader.style.display = 'none';
+                    
+                    if (data.error) {
+                        showError(data.error);
+                        return;
+                    }
+                    
+                    // Display results
+                    imagePreview.src = data.image_path;
+                    
+                    // Clear previous predictions
+                    predictionList.innerHTML = '';
+                    
+                    // Add predictions
+                    data.predictions.forEach((pred, index) => {
+                        const predItem = document.createElement('div');
+                        predItem.className = index === 0 ? 'prediction-item top' : 'prediction-item';
+                        
+                        predItem.innerHTML = `
+                            <div>${pred.class.replace('_', ' ')}</div>
+                            <div>${pred.probability}</div>
+                        `;
+                        
+                        predictionList.appendChild(predItem);
+                    });
+                    
+                    // Show results
+                    resultsContainer.style.display = 'block';
+                    
+                    // populate and show calories
+                    document.getElementById('calorie-food').textContent  = data.calories.food;
+                    document.getElementById('calorie-lower').textContent = data.calories.lower;
+                    document.getElementById('calorie-upper').textContent = data.calories.upper;
+                    document.getElementById('calorie-info').style.display = 'block';
+                })
+                .catch(error => {
+                    loader.style.display = 'none';
+                    showError('An error occurred while processing your request.');
+                    console.error('Error:', error);
+                });
+            });
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
