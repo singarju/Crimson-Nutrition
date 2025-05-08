@@ -5,6 +5,17 @@ Crimson Nutrition is a web application that utilizes computer vision to identify
 
 This project serves as a foundation for future expansions, ensuring a practical and user-friendly experience from the start.
 
+
+## App screenshots
+
+
+
+
+
+
+
+
+
 ## Team Members
 - **Dhruvil Joshi** (joshidh@iu.edu)
 - **Arju Singh** (singarju@iu.edu)
