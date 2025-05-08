@@ -9,17 +9,25 @@ This project serves as a foundation for future expansions, ensuring a practical 
 - **Dhruvil Joshi** (joshidh@iu.edu)
 - **Arju Singh** (singarju@iu.edu)
 
-## Installation & Setup
-(Details to be added once the project reaches the development stage.)
+## How to Run this locally
 
-Web Application runs of Python's Flask. Uploads are stored in the static folder.
+We haven't yet deployed the site since there's few things still left to do. (The Computer Vision Part is done but still working on proper app features)
 
+We have also given the trained model for ResNet-50, MobileNet-V2 in the repository.
 
-1. pip install requirements
-2. python3 app.py
+1. Create a virtual environment in python (recommended)
+2. Download the required libraries/packages
+    ```pip install -r requirements.txt```
+3. Create a .env file in the project root to store the Groq API Key 
+
+    ```GROQ_API_KEY=your_groq_api_key_here```
+
+4. Run the command 
+    ```python3 app.py```
+5. Access the web application on your local host
+
+    Uploaded images are stored in the static/uploads directory.
+    Maximum upload size is 16MB.
 
 ## Contact
-For any inquiries or contributions, feel free to reach out to us via email.
-
----
-
+If you find anything not working or help setting up project, feel free to contact us.
